@@ -1,6 +1,6 @@
 {% from "authconfig/map.jinja" import authconfig with context %}
 
-discovery-extract-dirs:
+python-ad-extract-dirs:
   file.directory:
     - name: {{ authconfig.discovery.tmpdir }}
     - user: root
@@ -14,7 +14,7 @@ discovery-extract-dirs:
    # Check local archive using hashstring for older Salt.
    # (see https://github.com/saltstack/salt/pull/41914).
   {%- if grains['saltversioninfo'] <= [2016, 11, 6] %}
-discovery-check-archive-hash:
+python-ad-archive-hash:
    module.run:
      - name: file.check_hash
      - path: salt://authconfig/files/{{ authconfig.discovery.archive_name }}
@@ -24,7 +24,7 @@ discovery-check-archive-hash:
   {%- endif %}
 {%- endif %}
 
-discovery-package-install:
+python-ad-package-install:
   archive.extracted:
     - name: {{ authconfig.discovery.tmpdir }}
     - source: salt://authconfig/files/{{ authconfig.discovery.archive_name }}
@@ -35,8 +35,12 @@ discovery-package-install:
        {%- endif %}
     - if_missing: {{ authconfig.discovery.tmpdir }}/{{ authconfig.discovery.archive_name }}
 
-#run-discovery:
-#  cmd.run:
-# TODO:
-#   - name: source /var/tmp/python-ad/bin/activate && python /run_something.py
-#   - set return values to authconfig.servers key and update before common state runs.
+add_dc_discovery_script:
+  file.managed:
+    - name: /var/tmp/discovery.py
+    - source: salt://authconfig/files/dclocator.py
+
+
+run_dc_discovery:
+  cmd.run:
+    - name: source /var/tmp/python-ad/bin/activate && python /var/tmp/dclocator.py {{ authconfig.domain }}
