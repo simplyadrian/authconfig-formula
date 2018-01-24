@@ -1,0 +1,20 @@
+#Default lookup dictionary
+
+authconfig:
+  access_users: []
+  access_groups: []
+  computer_ou: {{ salt['pillar.get']('authconfig.computer_ou') }}
+  debug_mode: False
+  domain: {{ salt['pillar.get']('authconfig.domain') }}
+  krb_dc_host: {{ salt['pillar.get']('authconfig.krb_dc_host') }}
+  opts: []
+  realm: {{ salt['pillar.get']('authconfig.realm') }}
+  sssd_pass: sdb://secrets/creds/sssd_pass
+  sssd_name: sdb://secrets/creds/sssd_name
+  uniquemember: 'map    group  uniqueMember     member'
+  discovery:
+    archive_name: discovery.tgz
+    archive_type: tar
+    hashsum: md5=6780981a2f672ead655cd56785d59d81
+    tmpdir: /var/tmp/python-ad
+
