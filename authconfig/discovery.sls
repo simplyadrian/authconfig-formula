@@ -8,7 +8,7 @@ python_ad_extract-dirs:
     - mode: 755
     - makedirs: True
     - require_in:
-      - python-ad-package-install
+      - python_ad_package_install
 
 {%- if authconfig.discovery.hashsum %}
    # Check local archive using hashstring for older Salt.
@@ -34,14 +34,14 @@ python_ad_package_install:
     - source_hash: {{ authconfig.discovery.hashsum }}
        {%- endif %}
     - if_missing: {{ authconfig.discovery.tmpdir }}/{{ authconfig.discovery.archive_name }}
-    - require_in:
-      - add_dc_discovery_script
 
 add_dc_discovery_script:
   file.managed:
     - name: /var/tmp/discovery.py
     - source: salt://authconfig/files/dclocator.py
     - mode: 754
+    - require:
+      - python_ad_package_install
     - require_in:
       - run_dc_discovery
 
