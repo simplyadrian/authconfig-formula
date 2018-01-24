@@ -1,0 +1,33 @@
+Debian:
+  packages:
+    - 'adcli'
+    - 'krb5-user'
+    - 'ldap-auth-client'
+    - 'ldap-utils'
+    - 'libnss-sss'
+    - 'libpam-krb5'
+    - 'libpam-sss'
+    - 'nscd'
+    - 'openssh-server'
+    - 'packagekit'
+    - 'realmd'
+    - 'sssd'
+    - 'sssd-tools'
+
+RedHat:
+  packages:
+    - 'adcli'
+    - 'authconfig'
+    - 'krb5-workstation'
+    - 'nscd'
+    - 'nss-pam-ldapd'
+    - 'oddjob'
+    - 'oddjob-mkhomedir'
+    - 'openldap'
+    - 'openldap-clients'
+    - 'openssh-server'
+    - 'python'
+    - 'realmd'
+    - 'samba-common'
+    - 'sssd'
+    - 'sssd-tools'

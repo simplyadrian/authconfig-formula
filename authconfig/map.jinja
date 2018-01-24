@@ -1,0 +1,13 @@
+{% import_yaml "authconfig/defaults.yaml" as defaults %}
+{% import_yaml "authconfig/osmap.yaml" as osmap %}
+
+{% set authconfig = salt['grains.filter_by'](
+  defaults,
+  merge=salt['grains.filter_by'](
+        osmap,
+        grain='os_family',
+        merge=salt['pillar.get']('authconfig', {}),
+        ),
+  base = 'authconfig',
+)
+%}
