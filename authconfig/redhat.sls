@@ -1,8 +1,12 @@
 {% from "authconfig/map.jinja" import authconfig with context %}
 {% from "authconfig/krbdchost.sls" import url %}
+{% from "authconfig/secrets.sls" import pass %}
+{% from "authconfig/secrets.sls" import name %}
 
 {% set run_opts= '--krb5realm=' + authconfig.domain  + ' ' + '--disablekrb5kdcdns' + ' ' + '--disablekrb5realmdns' + ' ' + '--krb5kdc=' + url + ' ' + '--krb5adminserver=' + authconfig.domain + ' ' + '--update' %}
 {% do authconfig.update({ 'opts': run_opts }) %}
+{% do authconfig.update({ 'sssd_pass': pass }) %}
+{% do authconfig.update({ 'sssd_name': name }) %}
 
 install_prereqs:
   pkg.installed:

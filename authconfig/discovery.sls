@@ -37,7 +37,7 @@ python_ad_package_install:
 
 add_dc_discovery_script:
   file.managed:
-    - name: /var/tmp/discovery.py
+    - name: /var/tmp/dclocator.py
     - source: salt://authconfig/files/dclocator.py
     - mode: 754
     - require:
