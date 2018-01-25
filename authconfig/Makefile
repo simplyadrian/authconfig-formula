@@ -22,7 +22,7 @@ endef
 export DOCKER_BODY
 .PHONY: default
 test_centos:
-	echo 'FROM simplyadrian/allsalt:centos7' > tests/Dockerfile
+	echo 'FROM simplyadrian/allsalt:centos_7' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
 	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
@@ -48,10 +48,19 @@ test_ubuntu:
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
+test_ubuntu_2016:
+	echo 'FROM simplyadrian/allsalt:ubuntu_2016' > tests/Dockerfile
+	echo "$$DOCKER_BODY" >> tests/Dockerfile
+	docker build --build-arg TEST_LABEL="${MY_DIR}" \
+	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
+	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
+	  --build-arg TEST_TAG=${TEST_TAG} \
+	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
+
 remove:
 	docker rmi $(shell docker images -q --filter label=TEST_TAG=${TEST_TAG} --filter label=${TEST_LABEL_KEY}="${MY_DIR}")
 	rm tests/Dockerfile
 
 clean .IGNORE: remove
 
-all: test_debian test_centos clean
+all: test_debian test_centos test_ubuntu test_ubuntu_2016 clean
