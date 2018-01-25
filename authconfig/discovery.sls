@@ -33,6 +33,7 @@ python_ad_package_install:
        {%- if authconfig.discovery.hashsum and grains['saltversioninfo'] > [2016, 11, 6] %}
     - source_hash: {{ authconfig.discovery.hashsum }}
        {%- endif %}
+    - trim_output: 5
     - if_missing: {{ authconfig.discovery.tmpdir }}/{{ authconfig.discovery.archive_name }}
 
 add_dc_discovery_script:
