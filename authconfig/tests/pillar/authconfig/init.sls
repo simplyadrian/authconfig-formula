@@ -7,3 +7,5 @@ authconfig:
   realm: ad.somedomain.net
   servers:
     - ad.somedomain.net
+  sssd_pass: password
+  sssd_name: Administrator

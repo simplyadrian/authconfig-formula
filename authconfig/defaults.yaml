@@ -1,5 +1,4 @@
 #Default lookup dictionary
-
 authconfig:
   access_users: []
   access_groups: []
@@ -9,8 +8,9 @@ authconfig:
   krb_dc_host: {{ salt['pillar.get']('authconfig.krb_dc_host') }}
   opts: []
   realm: {{ salt['pillar.get']('authconfig.realm') }}
-  sssd_pass: sdb://secrets/creds/sssd_pass
-  sssd_name: sdb://secrets/creds/sssd_name
+  sdb: False
+  sssd_pass: {{ salt['pillar.get']('authconfig.sssd_pass') }}
+  sssd_name: {{ salt['pillar.get']('authconfig.sssd_name') }}
   uniquemember: 'map    group  uniqueMember     member'
   discovery:
     archive_name: discovery.tgz

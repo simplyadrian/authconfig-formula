@@ -33,11 +33,12 @@ python_ad_package_install:
        {%- if authconfig.discovery.hashsum and grains['saltversioninfo'] > [2016, 11, 6] %}
     - source_hash: {{ authconfig.discovery.hashsum }}
        {%- endif %}
+    - trim_output: 5
     - if_missing: {{ authconfig.discovery.tmpdir }}/{{ authconfig.discovery.archive_name }}
 
 add_dc_discovery_script:
   file.managed:
-    - name: /var/tmp/discovery.py
+    - name: /var/tmp/dclocator.py
     - source: salt://authconfig/files/dclocator.py
     - mode: 754
     - require:
