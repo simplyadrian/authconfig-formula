@@ -1,5 +1,4 @@
 #Default lookup dictionary
-sdb: True
 authconfig:
   access_users: []
   access_groups: []
