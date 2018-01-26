@@ -1,10 +1,10 @@
 from sys import argv
-import ad
+import srvlookup
 
+name = 'ldap'
 domain = argv[1]
 
-locator = ad.core.locate.Locator()
-servers = locator.locate(domain)
+servers = srvlookup.lookup(name, domain)
 
 with open('/srv/pillar/authconfig/init.sls', 'a') as authconfig_conf:
     authconfig_conf.write("  servers:\n")
