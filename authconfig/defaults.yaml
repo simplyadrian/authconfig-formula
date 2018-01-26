@@ -8,10 +8,6 @@ authconfig:
   krb_dc_host: {{ salt['pillar.get']('authconfig.krb_dc_host') }}
   opts: []
   realm: {{ salt['pillar.get']('authconfig.realm') }}
-  sdb: False
-  sdb_location: 'secrets/creds/'
-  sssd_pass: {{ salt['pillar.get']('authconfig.sssd_pass') }}
-  sssd_name: {{ salt['pillar.get']('authconfig.sssd_name') }}
   uniquemember: 'map    group  uniqueMember     member'
   discovery:
     archive_name: discovery.tgz
@@ -19,3 +15,7 @@ authconfig:
     hashsum: md5=6780981a2f672ead655cd56785d59d81
     tmpdir: /var/tmp/python-ad
 
+  sssd_pass: username
+  # sdb_pass:
+  sssd_name: password
+  # sdb_name: password
