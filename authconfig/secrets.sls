@@ -1,9 +1,11 @@
 {% from "authconfig/map.jinja" import authconfig with context %}
 
-{% if authconfig.sdb %}
-  {% set pass = 'sdb://' + authconfig.sdb_location + '/password' %}
-  {% set name = 'sdb://' + authconfig.sdb_location + '/username' %}
-{% else %}
-  {% set pass = authconfig.sssd_pass %}
-  {% set name = authconfig.sssd_name %}
+{% set pass = authconfig.sssd_pass %}
+{% if authconfig.get('sdb_pass') %}
+  {% set pass = salt['sdb.get'](authconfig.sdb_pass) %}
+{% endif %}
+
+{% set name = authconfig.sssd_name %}
+{% if authconfig.get('sdb_name') %}
+  {% set name = salt['sdb.get'](authconfig.sdb_name) %}
 {% endif %}

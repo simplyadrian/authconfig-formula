@@ -14,7 +14,7 @@ install_prereqs:
 
 join_domain:
   cmd.run:
-    - name: echo -n '{{ authconfig.sssd_pass }}' | adcli join --stdin-password --domain-ou={{ authconfig.computer_ou }} --login-user={{ authconfig.sssd_name }} {{ authconfig.domain }}
+    - name: echo -n {{ authconfig.sssd_pass }} | adcli join --stdin-password --domain-ou={{ authconfig.computer_ou }} --login-user={{ authconfig.sssd_name }} {{ authconfig.domain }}
     - creates: /etc/krb5.keytab
 
 restart_authconfig:

@@ -5,7 +5,7 @@ authconfig:
   domain: test
   krb_dc_host: globalad.corp.adobe.com
   realm: ad.somedomain.net
-  sdb: True
-  sdb_location: '/some/path/'
+  sdb_pass: sdb://foo/bar
+  sssd_name: username
   servers:
     - ad.somedomain.net ##This value will be discovered and should not need to be set if your network has domain controllers.
