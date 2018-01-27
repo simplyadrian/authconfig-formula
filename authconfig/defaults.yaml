@@ -16,6 +16,6 @@ authconfig:
     tmpdir: /var/tmp/srvlookup
 
   sssd_pass: username
-  # sdb_pass:
+  # sdb_sssd_pass:
   sssd_name: password
-  # sdb_name: password
+  # sdb_sssd_name: password
