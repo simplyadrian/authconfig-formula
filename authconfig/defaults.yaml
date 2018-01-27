@@ -12,7 +12,7 @@ authconfig:
   discovery:
     archive_name: discovery.tgz
     archive_type: tar
-    hashsum: md5=a4ee2dfd485ea6babf441aff58b75c36
+    hashsum: md5=fd83d65836f05184e257fc23a1f88337
     tmpdir: /var/tmp/srvlookup
 
   sssd_pass: username
