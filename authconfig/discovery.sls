@@ -46,14 +46,13 @@ add_dc_discovery_script:
     - require_in:
       - run_dc_discovery
 
-run_dc_discovery:
-  cmd.run:
-    - name: source {{ authconfig.discovery.tmpdir }}/bin/activate && python /var/tmp/dclocator.py {{ authconfig.domain }}
+{% set servers = salt['cmd.shell']('"source" + ' ' +  authconfig.discovery.tmpdir + "/bin/activate" + ' ' + "&& python /var/tmp/dclocator.py" + ' ' + authconfig.domain') %}
 
-refresh_pillar_data:
+check_vars:
   cmd.run:
-    - name: salt-call --local saltutil.refresh_pillar
-    - onchanges:
-      - file: /srv/pillar/authconfig/init.sls
-    - require:
-      - run_dc_discovery
+{% if servers %}
+    - name: echo {{ servers }}
+{% else %}
+    - name: echo 'not set'
+{% endif %}
+
