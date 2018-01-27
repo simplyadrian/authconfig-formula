@@ -4,7 +4,9 @@ import srvlookup
 name = 'ldap'
 domain = argv[1]
 
-servers = srvlookup.lookup(name, domain)
+discovered = srvlookup.lookup(name, domain=domain)
+servers = [srv.host for srv in discovered]
+
 
 with open('/srv/pillar/authconfig/init.sls', 'a') as authconfig_conf:
     authconfig_conf.write("  servers:\n")
