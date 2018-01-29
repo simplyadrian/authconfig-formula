@@ -4,10 +4,28 @@
 {% from "authconfig/secrets.sls" import name %}
 
 {% set run_opts= '--krb5realm=' + authconfig.domain  + ' ' + '--disablekrb5kdcdns' + ' ' + '--disablekrb5realmdns' + ' ' + '--krb5kdc=' + url + ' ' + '--krb5adminserver=' + authconfig.domain + ' ' + '--update' %}
-{% do authconfig.update({ 'opts': run_opts }) %}
-{% do authconfig.update({ 'sssd_pass': pass }) %}
-{% do authconfig.update({ 'sssd_name': name }) %}
+{% do authconfig.update({'opts': run_opts}) %}
+{% do authconfig.update({'sssd_pass': pass}) %}
+{% do authconfig.update({'sssd_name': name}) %}
 
+{% set runit = true %}
+
+{% if authconfig.sssd_pass is none %}
+  {% set runit = false %}
+  fail_if_no_sssd_pass:
+    cmd.run:
+      - name: echo 'authconfig.sssd_pass is not set'
+{% endif %}
+
+{% if authconfig.sssd_name is none %}
+  {% set runit = false %}
+  fail_if_no_sssd_name:
+    cmd.run:
+      - name: echo 'authconfig.sssd_name is not set'
+{% endif %}
+
+
+{% if runit %}
 install_prereqs:
   pkg.installed:
     - pkgs: {{ authconfig.packages }}
@@ -48,3 +66,4 @@ nsswitch_group:
     - repl: 'group:     files sss'
     - pattern: |
         ^group: .*
+{% endif %}

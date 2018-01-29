@@ -15,7 +15,10 @@ authconfig:
     hashsum: md5=fd83d65836f05184e257fc23a1f88337
     tmpdir: /var/tmp/srvlookup
 
-  sssd_pass: username
-  # sdb_sssd_pass:
-  sssd_name: password
-  # sdb_sssd_name: password
+  sssd_name:
+  sdb_sssd_name:
+  # sdb_sssd_name: sdb://uri/key
+
+  sssd_pass:
+  sdb_sssd_pass:
+  # sdb_sssd_pass: sdb://uri/key
