@@ -8,14 +8,6 @@
 {% do authconfig.update({'sssd_pass': pass}) %}
 {% do authconfig.update({'sssd_name': name}) %}
 
-{% if authconfig.sssd_pass is none %}
-  {{ salt.test.exception("authconfig.sssd_pass is not set") }}
-{% endif %}
-
-{% if authconfig.sssd_name is none %}
-  {{ salt.test.exception("authconfig.sssd_name is not set") }}
-{% endif %}
-
 install_prereqs:
   pkg.installed:
     - pkgs: {{ authconfig.packages }}
