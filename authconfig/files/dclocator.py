@@ -1,10 +1,13 @@
 from sys import argv
 import srvlookup
 
-name = 'ldap'
+names = ['ldap', 'kerberos']
 domain = argv[1]
+servers = []
 
-discovered = srvlookup.lookup(name, domain=domain)
-servers = [srv.host for srv in discovered]
+for name in names:
+    discovered = srvlookup.lookup(name, domain=domain)
+    servers.extend([srv.host for srv in discovered])
 
+servers = sorted(list(set(servers)))
 print(','.join(servers))
