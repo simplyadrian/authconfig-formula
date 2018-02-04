@@ -22,7 +22,7 @@ endef
 export DOCKER_BODY
 .PHONY: default
 test_centos:
-	echo 'FROM simplyadrian/allsalt:centos_7' > tests/Dockerfile
+	echo 'FROM simplyadrian/allsalt:centos_master_2017.7.2' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
 	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
@@ -31,7 +31,7 @@ test_centos:
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
 test_debian:
-	echo 'FROM simplyadrian/allsalt:debian_jessie' > tests/Dockerfile
+	echo 'FROM simplyadrian/allsalt:debian_master_2017.7.2' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
 	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
@@ -40,7 +40,7 @@ test_debian:
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
 test_ubuntu:
-	echo 'FROM simplyadrian/allsalt:ubuntu_xenial' > tests/Dockerfile
+	echo 'FROM simplyadrian/allsalt:ubuntu_master_2017.7.2' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
 	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
@@ -49,7 +49,7 @@ test_ubuntu:
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
 test_ubuntu_2016:
-	echo 'FROM simplyadrian/allsalt:ubuntu_2016' > tests/Dockerfile
+	echo 'FROM simplyadrian/allsalt:ubuntu_master_2016.11.3' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
 	  --build-arg TEST_LABEL_KEY=${TEST_LABEL_KEY} \
