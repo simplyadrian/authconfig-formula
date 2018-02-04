@@ -1,0 +1,6 @@
+sudo: required
+language: saltstack
+services:
+  - docker
+script:
+- cd  authconfig/ && make all
