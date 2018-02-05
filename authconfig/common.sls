@@ -73,3 +73,10 @@ password_auth_no_removal:
         - mode: delete
         - watch_in:
             - service: sshd_service
+
+restart_authconfig:
+  service.running:
+    - name: sssd
+    - watch:
+        - file: /etc/nsswitch.conf
+        - file: /etc/sssd/sssd.conf
