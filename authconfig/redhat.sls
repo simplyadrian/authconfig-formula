@@ -17,12 +17,6 @@ join_domain:
     - name: echo -n {{ authconfig.sssd_pass }} | adcli join --stdin-password --domain-ou={{ authconfig.computer_ou }} --login-user={{ authconfig.sssd_name }} {{ authconfig.domain }}
     - creates: /etc/krb5.keytab
 
-restart_authconfig:
-  service.running:
-    - name: sssd
-    - watch:
-        - file: /etc/nsswitch.conf
-
 run_authconfig:
   cmd.run:
     - name: /usr/sbin/authconfig {{ authconfig.opts }}
