@@ -65,12 +65,12 @@ password_auth_yes_add:
         - watch_in:
             - service: sshd_service
 
-password_auth_no_removal:
+password_auth_toggle:
     file.line:
         - name: /etc/ssh/sshd_config
-        - content: 'PasswordAuthentication no'
-        - match: '#PasswordAuthentication'
-        - mode: delete
+        - content: 'PasswordAuthentication yes'
+        - match: 'PasswordAuthentication no'
+        - mode: replace
         - watch_in:
             - service: sshd_service
 
