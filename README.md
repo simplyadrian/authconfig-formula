@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/intuitivetechnologygroup/authconfig-formula.svg?branch=master)](https://travis-ci.org/intuitivetechnologygroup/authconfig-formula)
+
 # Authconfig
 
 Formulas to set up authconfig and sssd on Linux systems.
