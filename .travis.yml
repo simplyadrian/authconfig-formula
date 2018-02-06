@@ -1,9 +1,7 @@
 notifications:
   email:
     recipients:
-    - adrian.herrera@intuitivetech.com
-    - megan.wood@intuitivetech.com
-    - andrew.johnson@intuitivetech.com
+    - devops@intuitivetech.com
     on_success: never
     on_failure: always
   slack:
