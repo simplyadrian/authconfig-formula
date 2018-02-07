@@ -89,3 +89,9 @@ restart_authconfig:
     - watch:
       - file: /etc/nsswitch.conf
       - file: /etc/sssd/sssd.conf
+
+cleanup_discovery:
+  file.absent:
+    - name: /var/tmp
+    - require:
+      - file: /etc/sssd/sssd.conf
