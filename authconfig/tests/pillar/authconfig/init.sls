@@ -4,6 +4,7 @@ authconfig:
   computer_ou: something
   domain: somedomain.net
   krb_dc_host: globalad.corp.somedomain.net
+  krb_dc_port: 88
   realm: ad.somedomain.net
   servers:
     - ad.somedomain.net
