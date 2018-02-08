@@ -7,7 +7,7 @@ authconfig:
   domain: {{ salt['pillar.get']('authconfig.domain') }}
   krb_dc_host: {{ salt['pillar.get']('authconfig.krb_dc_host') }}
   krb_dc_port: {{ salt['pillar.get']('authconfig.krb_dc_port') }}
-  ldap_schema:
+  ldap_schema: # Four schema types are currently supported: rfc2307,rfc2307bis,IPA,AD (default rfc2307)
   ldap_authtok:
   ldap_tls:
   opts: []
