@@ -2,7 +2,7 @@
 
 {% if grains['os_family'] == 'RedHat'  %}
   {% set url = salt['grains.filter_by']({
-    '7': authconfig.get('authconfig:krb_dc_host', '{0}:{1}'.format(authconfig.krb_dc_host, authconfig.krb_dc_port),
+    '7': authconfig.get('authconfig:krb_dc_host', '{0}:{1}'.format(authconfig.krb_dc_host, authconfig.krb_dc_port)),
     '6': authconfig.get('authconfig:krb_dc_host)'),
   }, grain='osmajorrelease', default='7' )
   %}

@@ -18,12 +18,14 @@ copy_sssd_conf:
     - watch_in:
       - service: sssd_service
 
+{% if authconfig.ldap_authtok %}
 hash_authconfig_bind_pass:
   cmd.run:
     - name: echo -n {{ authconfig.sssd_pass }} | sss_obfuscate -s -d {{ authconfig.domain }}
     - env:
       - PYTHONPATH: ${PYTHONPATH}:/usr/lib64/python2.7/site-packages
     - shell: {{ grains.shell if 'shell' in grains else '/bin/bash' }}
+{% endif %}
 
 sssd_service:
   service.running:
