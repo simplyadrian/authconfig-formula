@@ -95,5 +95,5 @@ restart_authconfig:
 cleanup_discovery:
   file.absent:
     - name: /var/tmp
-    - require:
+    - onchanges:
       - file: /etc/sssd/sssd.conf
