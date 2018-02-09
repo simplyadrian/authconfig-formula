@@ -94,6 +94,16 @@ restart_authconfig:
 
 cleanup_discovery:
   file.absent:
-    - name:
-      - /var/tmp/dclocator.py
-      - /var/tmp/srvlookup
+    - name: /var/tmp/dclocator.py
+
+cleanup_discovery_virtual_env:
+  file.absent:
+    - name: /var/tmp/srvlookup
+
+cleanup_discovery_script:
+  file.absent:
+    - name: /var/tmp/dclocator.py
+
+cleanup_discovery_tmpdir:
+  file.absent:
+    - name: /var/tmp
