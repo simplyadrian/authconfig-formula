@@ -94,6 +94,6 @@ restart_authconfig:
 
 cleanup_discovery:
   file.absent:
-    - name: /var/tmp
-    - onchanges:
-      - file: /etc/sssd/sssd.conf
+    - name:
+      - /var/tmp/dclocator.py
+      - /var/tmp/srvlookup
