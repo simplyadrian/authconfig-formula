@@ -20,8 +20,6 @@ authconfig:
   opts: []
   override_homedir:
   realm: {{ salt['pillar.get']('authconfig.realm') }}
-  samba:
-    workgroup: myworkgroup
   sssd_name:
   sdb_sssd_name: # sdb_sssd_name: sdb://uri/key
   sssd_pass:
