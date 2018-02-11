@@ -2,15 +2,16 @@ Debian:
   packages:
     - 'adcli'
     - 'krb5-user'
-    - 'ldap-auth-client'
     - 'ldap-utils'
     - 'libnss-sss'
     - 'libpam-krb5'
     - 'libpam-sss'
     - 'nscd'
+    - 'ntp'
     - 'openssh-server'
     - 'packagekit'
     - 'realmd'
+    - 'samba'
     - 'sssd'
     - 'sssd-tools'
 

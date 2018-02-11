@@ -1,28 +1,29 @@
 #Default lookup dictionary
 authconfig:
+  ad_hostname: False
   access_users: []
   access_groups: []
   computer_ou: {{ salt['pillar.get']('authconfig.computer_ou') }}
   debug_mode: False
+  discovery:
+    archive_name: discovery.tgz
+    archive_type: tar
+    hashsum: md5=fd83d65836f05184e257fc23a1f88337
+    tmpdir: /var/tmp/srvlookup
   domain: {{ salt['pillar.get']('authconfig.domain') }}
   krb_dc_host: {{ salt['pillar.get']('authconfig.krb_dc_host') }}
   krb_dc_port: {{ salt['pillar.get']('authconfig.krb_dc_port') }}
   ldap_schema: # Four schema types are currently supported: rfc2307,rfc2307bis,IPA,AD (default rfc2307)
   ldap_authtok:
   ldap_tls:
+  provider: ldap #Debian systems use `ad`
   opts: []
+  override_homedir:
   realm: {{ salt['pillar.get']('authconfig.realm') }}
-  uniquemember: 'map    group  uniqueMember     member'
-  discovery:
-    archive_name: discovery.tgz
-    archive_type: tar
-    hashsum: md5=fd83d65836f05184e257fc23a1f88337
-    tmpdir: /var/tmp/srvlookup
-
+  samba:
+    workgroup: myworkgroup
   sssd_name:
-  sdb_sssd_name:
-  # sdb_sssd_name: sdb://uri/key
-
+  sdb_sssd_name: # sdb_sssd_name: sdb://uri/key
   sssd_pass:
-  sdb_sssd_pass:
-  # sdb_sssd_pass: sdb://uri/key
+  sdb_sssd_pass: # sdb_sssd_pass: sdb://uri/key
+  uniquemember: 'map    group  uniqueMember     member'
