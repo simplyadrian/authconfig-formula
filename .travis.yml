@@ -15,3 +15,4 @@ services:
 - docker
 script:
 - cd  authconfig/ && make
+- cd authconfig/ && make test_debian
