@@ -6,6 +6,12 @@
 {% do authconfig.update({'sssd_pass': pass}) %}
 {% do authconfig.update({'sssd_name': name}) %}
 
+{% set vm_flag = False %}
+{% if ((grains['virtual'] != 'bhyve' and 'virtual_subtype' not in grains) or
+       (grains.get('virtual_subtype') and grains.get('virtual_subtype') != 'Docker')) %}
+  {% set vm_flag = True %}
+{% endif %}
+
 install_prereqs:
   pkg.installed:
     - pkgs: {{ authconfig.packages }}
@@ -22,7 +28,7 @@ copy_ntp_conf:
     - source: salt://authconfig/files/ntp.conf
     - template: jinja
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
 ntp_service:
   service.running:
     - name: ntp
@@ -84,7 +90,7 @@ copy_samba_conf:
     - source: salt://authconfig/files/smb.conf
     - template: jinja
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
 samba_service:
   service.running:
     - name: smb
@@ -93,7 +99,7 @@ samba_service:
       - file: /etc/samba/smb.conf
 {% endif %}
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
 nmbd_service:
   service.running:
     - name: nmbd

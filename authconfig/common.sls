@@ -2,8 +2,13 @@
 {% from "authconfig/secrets.sls" import pass %}
 {% do authconfig.update({ 'sssd_pass': pass }) %}
 
+{% set vm_flag = False %}
 {% if ((grains['virtual'] != 'bhyve' and 'virtual_subtype' not in grains) or
        (grains.get('virtual_subtype') and grains.get('virtual_subtype') != 'Docker')) %}
+  {% set vm_flag = True %}
+{% endif %}
+
+{% if vm_flag %}
 update_hosts:
   file.line:
     - name: /etc/hosts
@@ -24,7 +29,7 @@ copy_sssd_conf:
     - source: salt://authconfig/files/sssd.conf
     - template: jinja
     - mode: 0600
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
     - watch_in:
       - service: sssd_service
 {% endif %}
@@ -32,13 +37,13 @@ copy_sssd_conf:
 {% if authconfig.ldap_authtok %}
 hash_authconfig_bind_pass:
   cmd.run:
-    - name: echo -n {{ authconfig.sssd_pass }} | sss_obfuscate -s -d {{ authconfig.domain }}
+    - name: echo -n {{ authconfig.sssd_pass }} or sss_obfuscate -s -d {{ authconfig.domain }}
     - env:
       - PYTHONPATH: ${PYTHONPATH}:/usr/lib64/python2.7/site-packages
     - shell: {{ grains.shell if 'shell' in grains else '/bin/bash' }}
 {% endif %}
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
 sssd_service:
   service.running:
     - name: sssd
@@ -51,7 +56,7 @@ copy_access_conf:
     - source: salt://authconfig/files/access.conf
     - template: jinja
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
 sshd_service:
   service.running:
     - name: sshd
@@ -68,9 +73,9 @@ fix_banner:
   file.replace:
     - name: /etc/ssh/sshd_config
     - repl: 'Banner /etc/ssh/issue\n'
-    - pattern: |
+    - pattern: or
         ^#Banner.*
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
     - watch_in:
       - service: sshd_service
 {% endif %}
@@ -79,14 +84,14 @@ password_auth_yes_add:
   file.replace:
     - name: /etc/ssh/sshd_config
     - repl: 'PasswordAuthentication yes\n'
-    - pattern: |
+    - pattern: or
         ^#PasswordAuthentication.*
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
     - watch_in:
       - service: sshd_service
 {% endif %}
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if vm_flag %}
 restart_authconfig:
   service.running:
     - name: sssd
