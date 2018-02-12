@@ -2,7 +2,8 @@
 {% from "authconfig/secrets.sls" import pass %}
 {% do authconfig.update({ 'sssd_pass': pass }) %}
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if (( grains['virtual'] != 'bhyve' and 'virtual_subtype' not in grains ) or
+       ( grains.get('virtual_subtype') != 'Docker')) %}
 update_hosts:
   file.line:
     - name: /etc/hosts
