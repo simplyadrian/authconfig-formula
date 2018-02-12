@@ -11,6 +11,7 @@
 install_prereqs:
   pkg.installed:
     - pkgs: {{ authconfig.packages }}
+    - refresh: True
 
 join_domain:
   cmd.run:
@@ -22,23 +23,29 @@ run_authconfig:
     - name: /usr/sbin/authconfig {{ authconfig.opts }}
     - creates: /var/lib/authconfig/backup-configured
 
+copy_nsswitch_conf:
+  file.managed:
+        - name: /etc/nsswitch.conf
+        - source: salt://authconfig/files/nsswitch.conf
+        - template: jinja
+
 nsswitch_passwd:
   file.replace:
     - name: /etc/nsswitch.conf
-    - repl: 'passwd:     files sss'
+    - repl: 'passwd:         files sss\n'
     - pattern: |
         ^passwd: .*
 
 nsswitch_shadow:
   file.replace:
     - name: /etc/nsswitch.conf
-    - repl: 'shadow:     files sss'
+    - repl: 'shadow:          files sss\n'
     - pattern: |
         ^shadow: .*
 
 nsswitch_group:
   file.replace:
     - name: /etc/nsswitch.conf
-    - repl: 'group:     files sss'
+    - repl: 'group:          files sss\n'
     - pattern: |
         ^group: .*
