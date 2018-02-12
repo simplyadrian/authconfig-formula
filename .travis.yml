@@ -1,3 +1,9 @@
+env:
+  matrix:
+    - MAKE_JOB_ID: test_centos
+    - MAKE_JOB_ID: test_debian
+    - MAKE_JOB_ID: test_ubuntu
+    - MAKE_JOB_ID: test_ubuntu_2016
 notifications:
   email:
     recipients:
@@ -14,4 +20,4 @@ language: python
 services:
 - docker
 script:
-- cd authconfig/ && make
+- cd authconfig/ && make ${MAKE_JOB_ID}
