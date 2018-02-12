@@ -10,8 +10,8 @@ notifications:
     on_success: always
     on_failure: always
 sudo: required
-language: PYTHON
+language: python
 services:
 - docker
 script:
-- cd  authconfig/ && make && make test_debian
+- cd authconfig/ && make
