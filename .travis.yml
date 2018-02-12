@@ -14,4 +14,4 @@ language: PYTHON
 services:
 - docker
 script:
-- cd  authconfig/ && make && make test_debian
+- cd  authconfig/ && make && make test_debian && make test_ubuntu && make test_ubuntu_2016
