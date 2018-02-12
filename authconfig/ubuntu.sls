@@ -22,7 +22,7 @@ copy_ntp_conf:
     - source: salt://authconfig/files/ntp.conf
     - template: jinja
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if grains['virtual'] != 'bhyve' or grains['virtual_subtype'] != 'Docker' %}
 ntp_service:
   service.running:
     - name: ntp
@@ -84,7 +84,7 @@ copy_samba_conf:
     - source: salt://authconfig/files/smb.conf
     - template: jinja
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if grains['virtual'] != 'bhyve' or grains['virtual_subtype'] != 'Docker' %}
 samba_service:
   service.running:
     - name: smb
@@ -93,7 +93,7 @@ samba_service:
       - file: /etc/samba/smb.conf
 {% endif %}
 
-{% if grains['virtual'] != 'bhyve' %}
+{% if grains['virtual'] != 'bhyve' or grains['virtual_subtype'] != 'Docker' %}
 nmbd_service:
   service.running:
     - name: nmbd
