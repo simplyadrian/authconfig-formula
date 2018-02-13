@@ -29,17 +29,7 @@ centos_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-centos -f tests/Dockerfile .
-
-	docker run -d --rm \
-	  -v ${PWD}/tests/integration:/opt/tests/integration \
-	  -h salt-state-testing-centos \
-	  --name salt-state-testing-centos \
-	  -it "${MY_DIR}":salt-state-testing-centos
-
-	docker exec salt-state-testing-centos salt-call --local pkg.install python-pip refresh=True
-	docker exec salt-state-testing-centos salt-call --local pip.install pytest
-	docker exec salt-state-testing-centos salt-call --local cmd.run "pytest -s /opt/tests/integration"
-	docker kill salt-state-testing-centos
+	sh tests/pytests/run-tests.sh salt-state-testing-centos
 
 debian_test_build:
 	echo 'FROM simplyadrian/allsalt:debian_master_2017.7.2' > tests/Dockerfile
@@ -49,17 +39,7 @@ debian_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-debian -f tests/Dockerfile .
-
-	docker run -d --rm \
-	  -v ${PWD}/tests/integration:/opt/tests/integration \
-	  -h salt-state-testing-debian \
-	  --name salt-state-testing-debian \
-	  -it "${MY_DIR}":salt-state-testing-debian
-
-	docker exec salt-state-testing-debian salt-call --local pkg.install python-pip refresh=True
-	docker exec salt-state-testing-debian salt-call --local pip.install pytest
-	docker exec salt-state-testing-debian salt-call --local cmd.run "pytest -s /opt/tests/integration"
-	docker kill salt-state-testing-debian
+	sh tests/pytests/run-tests.sh salt-state-testing-debian with-pip
 
 ubuntu_test_build:
 	echo 'FROM simplyadrian/allsalt:ubuntu_master_2017.7.2' > tests/Dockerfile
@@ -69,17 +49,7 @@ ubuntu_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-ubuntu -f tests/Dockerfile .
-
-	docker run -d --rm \
-	  -v ${PWD}/tests/integration:/opt/tests/integration \
-	  -h salt-state-testing-ubuntu \
-	  --name salt-state-testing-ubuntu \
-	  -it "${MY_DIR}":salt-state-testing-ubuntu
-
-	docker exec salt-state-testing-ubuntu salt-call --local pkg.install python-pip refresh=True
-	docker exec salt-state-testing-ubuntu salt-call --local pip.install pytest
-	docker exec salt-state-testing-ubuntu salt-call --local cmd.run "pytest -s /opt/tests/integration"
-	docker kill salt-state-testing-ubuntu
+	sh tests/pytests/run-tests.sh salt-state-testing-ubuntu with-pip
 
 ubuntu_2016_test_build:
 	echo 'FROM simplyadrian/allsalt:ubuntu_master_2016.11.3' > tests/Dockerfile
@@ -89,17 +59,7 @@ ubuntu_2016_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-ubuntu-2016-11-3 -f tests/Dockerfile .
-
-	docker run -d --rm \
-	  -v ${PWD}/tests/integration:/opt/tests/integration \
-	  -h salt-state-testing-ubuntu-2016-11-3 \
-	  --name salt-state-testing-ubuntu-2016-11-3 \
-	  -it "${MY_DIR}":salt-state-testing-ubuntu-2016-11-3
-
-	docker exec salt-state-testing-ubuntu-2016-11-3 salt-call --local pkg.install python-pip refresh=True
-	docker exec salt-state-testing-ubuntu-2016-11-3 salt-call --local pip.install pytest
-	docker exec salt-state-testing-ubuntu-2016-11-3 salt-call --local cmd.run "pytest -s /opt/tests/integration"
-	docker kill salt-state-testing-ubuntu-2016-11-3
+	sh tests/pytests/run-tests.sh salt-state-testing-ubuntu-2016-11-3 with-pip
 
 remove:
 	docker rmi $(shell docker images -q --filter label=TEST_TAG=${TEST_TAG} --filter label=${TEST_LABEL_KEY}="${MY_DIR}")
@@ -116,3 +76,8 @@ test_ubuntu: ubuntu_test_build clean
 test_ubuntu_2016: ubuntu_2016_test_build clean
 
 all: test_centos test_debian test_ubuntu test_ubuntu_2016
+
+clean-local:
+	find . -name '*.pyc' -exec rm '{}' ';'
+	rm -rf tests/pytests/tests/.pytest_cache
+	rm -rf tests/pytests/tests/__pycache__
