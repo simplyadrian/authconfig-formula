@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 test -z $1 && echo "Usage: ${0} CONTAINER_NAME" && exit 1
 
