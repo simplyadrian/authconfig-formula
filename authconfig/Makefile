@@ -29,7 +29,7 @@ centos_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-centos -f tests/Dockerfile .
-	sh tests/pytests/run-tests.sh salt-state-testing-centos
+	./tests/pytests/run-tests.sh salt-state-testing-centos
 
 debian_test_build:
 	echo 'FROM simplyadrian/allsalt:debian_master_2017.7.2' > tests/Dockerfile
@@ -39,7 +39,7 @@ debian_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-debian -f tests/Dockerfile .
-	sh tests/pytests/run-tests.sh salt-state-testing-debian with-pip
+	./tests/pytests/run-tests.sh salt-state-testing-debian with-pip
 
 ubuntu_test_build:
 	echo 'FROM simplyadrian/allsalt:ubuntu_master_2017.7.2' > tests/Dockerfile
@@ -49,7 +49,7 @@ ubuntu_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-ubuntu -f tests/Dockerfile .
-	sh tests/pytests/run-tests.sh salt-state-testing-ubuntu with-pip
+	./tests/pytests/run-tests.sh salt-state-testing-ubuntu with-pip
 
 ubuntu_2016_test_build:
 	echo 'FROM simplyadrian/allsalt:ubuntu_master_2016.11.3' > tests/Dockerfile
@@ -59,7 +59,7 @@ ubuntu_2016_test_build:
 	  --build-arg GIT_COMMIT=${GIT_COMMIT} \
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":salt-state-testing-ubuntu-2016-11-3 -f tests/Dockerfile .
-	sh tests/pytests/run-tests.sh salt-state-testing-ubuntu-2016-11-3 with-pip
+	./tests/pytests/run-tests.sh salt-state-testing-ubuntu-2016-11-3 with-pip
 
 remove:
 	docker rmi $(shell docker images -q --filter label=TEST_TAG=${TEST_TAG} --filter label=${TEST_LABEL_KEY}="${MY_DIR}")
