@@ -16,12 +16,12 @@ ADD tests/pillar/ /srv/pillar
 ADD . /srv/salt/$$TEST_LABEL
 WORKDIR /srv/salt
 RUN sed -i "s/#master: salt/master: localhost/g" /etc/salt/minion &&\
-	salt-call --local -l debug state.apply
+	salt-call --local state.apply
 endef
 
 export DOCKER_BODY
 .PHONY: default
-test_centos:
+centos_test_build:
 	echo 'FROM simplyadrian/allsalt:centos_master_2017.7.2' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
@@ -30,7 +30,7 @@ test_centos:
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
-test_debian:
+debian_test_build:
 	echo 'FROM simplyadrian/allsalt:debian_master_2017.7.2' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
@@ -39,7 +39,7 @@ test_debian:
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
-test_ubuntu:
+ubuntu_test_build:
 	echo 'FROM simplyadrian/allsalt:ubuntu_master_2017.7.2' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
@@ -48,7 +48,7 @@ test_ubuntu:
 	  --build-arg TEST_TAG=${TEST_TAG} \
 	  --force-rm -t "${MY_DIR}":${TEST_TAG} -f tests/Dockerfile .
 
-test_ubuntu_2016:
+ubuntu_2016_test_build:
 	echo 'FROM simplyadrian/allsalt:ubuntu_master_2016.11.3' > tests/Dockerfile
 	echo "$$DOCKER_BODY" >> tests/Dockerfile
 	docker build --build-arg TEST_LABEL="${MY_DIR}" \
@@ -63,4 +63,12 @@ remove:
 
 clean .IGNORE: remove
 
-all: test_debian test_centos test_ubuntu test_ubuntu_2016 clean
+test_centos: centos_test_build clean
+
+test_debian: debian_test_build clean
+
+test_ubuntu: ubuntu_test_build clean
+
+test_ubuntu_2016: ubuntu_2016_test_build clean
+
+all: test_centos test_debian test_ubuntu test_ubuntu_2016
