@@ -1,2 +1,7 @@
+*.egg
+*.egg-info/
+*.py[cod]
 .env
-authconfig/tests/Dockerfile
+.pytest_cache/
+authconfig/tests/Dockerfile*
+ignore/
