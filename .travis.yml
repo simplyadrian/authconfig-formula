@@ -1,9 +1,10 @@
 env:
   matrix:
-    - MAKE_JOB_ID: test_centos
-    - MAKE_JOB_ID: test_debian
-    - MAKE_JOB_ID: test_ubuntu
-    - MAKE_JOB_ID: test_ubuntu_2016
+    - OS_ID: centos_master_2017.7.2
+    - OS_ID: ubuntu_master_2017.7.2
+    - OS_ID: ubuntu_master_2016.11.3
+    - OS_ID: debian_master_2017.7.2
+
 notifications:
   email:
     recipients:
@@ -15,9 +16,19 @@ notifications:
       - secure: cdO3E9c06xOpESuJyRtAJRzwNIlQLGs1cbcX8W0Uhvx6+5ssYSe5xI/OWV5L1CU+Yyi26i2GndmYoF9dRJvEhozWBFlXZOcZJe4ge7gOliIw2U70DZ/spm5wtnrqjQDIHyrY0TyTE4403uKiFIGkD2leMUREelBEJhyySwL6ts9yxA4JIcGWBcBc3c0LlTHJESNr2i1qzM1YpRgcfEEB3IbRahUAA0xVStxojIm9eewhrfyDIMY13/bDJb4w1pZmBAtMM22u+1+3yhUlOMj8lRVXndma6XfugTN0P32viWrCYn/K75BGjkllKtkPHEytu7JY14dOMcvpoFV4/N79KCFcr3h4NItWVim5540VFBH1sPDpY/5K268y9z/W1Zn+3+VsVVB7FZH3k67XTcmThx3Hl0xC0u4wiWDWCbds2K54Y3U5lQ1LttPoPSrLJQ2zw4Ce2wxwLloY786MPQUWmyK8ocpC1NExVYsqEBaJkO+SDwDAsk03QnTewWHZ2ciN5bE6sITbbeym00Qx+C02NnseNJNneVWtgNequNiYRu2CTnUX6anmz+FLcMKRt+WQr+Rw22K0c3sx+utUCGPCYQJeyRgHfyQj9EFGynso+ooPsbL540UNbIFYlip1KTyaLd7cvzi+B0yyzRjKLFXFacr5KCvAC+L+9JeRqtBCzgY=
     on_success: always
     on_failure: always
+
 sudo: required
+
 language: python
+
 services:
 - docker
+
+before_install:
+- cd authconfig && pip install Jinja2 && python tests/filltmpl.py ${OS_ID}
+
+install:
+- docker build --force-rm -t "authconfig:salt-state-testing-${OS_ID}" -f "tests/Dockerfile.${OS_ID}" .
+
 script:
-- cd authconfig/ && make ${MAKE_JOB_ID}
+- cd tests && ./run-tests.sh ${OS_ID}
